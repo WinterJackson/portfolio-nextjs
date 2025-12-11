@@ -1,6 +1,6 @@
 'use client'
 
-import { signOut } from 'next-auth/react'
+import { SessionProvider, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -23,11 +23,12 @@ export default function AdminLayout({
   const pathname = usePathname()
 
   return (
-    <div className="admin-layout">
-      <aside className="admin-sidebar">
-        <div className="admin-sidebar-header">
-          <h2>Portfolio Admin</h2>
-        </div>
+    <SessionProvider>
+      <div className="admin-layout">
+        <aside className="admin-sidebar">
+          <div className="admin-sidebar-header">
+            <h2>Portfolio Admin</h2>
+          </div>
         
         <nav className="admin-nav">
           {navItems.map((item) => (
@@ -165,6 +166,7 @@ export default function AdminLayout({
           min-height: 100vh;
         }
       `}</style>
-    </div>
+      </div>
+    </SessionProvider>
   )
 }
