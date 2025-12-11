@@ -19,23 +19,19 @@ export default function AdminLoginPage() {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
-    console.log('Attempting login with credentials:', { email })
-    
     try {
-      console.log('Calling signIn...')
       const result = await signIn('credentials', {
         email,
         password,
         redirect: false,
       })
-      console.log('SignIn result:', result)
 
       if (result?.error) {
         setError('Invalid email or password')
         setLoading(false)
       } else if (result?.ok) {
-        // Use window.location for a hard redirect that properly refreshes cookies
-        window.location.href = '/admin'
+        router.push('/admin')
+        router.refresh()
       } else {
         setError('Login failed. Please try again.')
         setLoading(false)

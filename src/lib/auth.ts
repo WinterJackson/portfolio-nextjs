@@ -11,7 +11,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         strategy: 'jwt',
     },
     trustHost: true,
-    debug: process.env.NODE_ENV === 'development',
     pages: {
         signIn: '/admin/login',
     },
@@ -27,20 +26,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                 password: { label: 'Password', type: 'password' },
             },
             async authorize(credentials) {
-                console.log('Authorize called with credentials:', { email: credentials?.email })
-
                 if (!credentials?.email || !credentials?.password) {
-                    console.log('Missing credentials in authorize')
                     return null
                 }
 
                 const user = await prisma.user.findUnique({
                     where: { email: credentials.email as string },
                 })
-                console.log('User found in DB:', user ? 'Yes' : 'No')
 
                 if (!user || !user.password) {
-                    console.log('User not found or has no password')
                     return null
                 }
 
@@ -48,10 +42,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     credentials.password as string,
                     user.password
                 )
-                console.log('Password validation result:', isPasswordValid)
 
                 if (!isPasswordValid) {
-                    console.log('Invalid password')
                     return null
                 }
 
