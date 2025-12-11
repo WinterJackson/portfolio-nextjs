@@ -1,5 +1,6 @@
 'use client'
 
+import AdminMobileNav from '@/components/admin/AdminMobileNav'
 import { SessionProvider, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -30,6 +31,7 @@ export default function AdminLayout({
   return (
     <SessionProvider>
       <div className="admin-layout">
+        <AdminMobileNav />
         <aside className="admin-sidebar">
           <div className="admin-sidebar-header">
             <h2>Portfolio Admin</h2>

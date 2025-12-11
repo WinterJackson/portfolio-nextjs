@@ -3040,7 +3040,7 @@ textarea.form-input::-webkit-resizer { display: none; }
 }
 
 .dashboard-header {
-  margin-bottom: 32px;
+  margin-bottom: 10px;
 }
 
 .dashboard-header h1 {
@@ -3554,5 +3554,57 @@ textarea.form-input::-webkit-resizer { display: none; }
 @media (max-width: 768px) {
   .form-section .form-row {
     grid-template-columns: 1fr;
+  }
+}
+
+
+/* #ADMIN MOBILE NAV */
+.admin-mobile-nav {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 90;
+  display: none; /* Hidden by default (desktop) */
+  align-items: center;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.2); /* Subtle backing for visibility of text */
+  backdrop-filter: blur(4px);
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.nav-arrow-btn {
+  background: transparent;
+  border: none;
+  color: var(--white-1);
+  width: auto;
+  height: auto;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  cursor: pointer;
+  transition: var(--transition-1);
+  box-shadow: none;
+}
+
+.nav-arrow-btn:active {
+  color: #FF0000;
+  transform: scale(0.9);
+  background: transparent;
+}
+
+.nav-separator {
+  color: var(--white-1);
+  font-size: 20px;
+  font-weight: 300;
+  opacity: 0.5;
+  margin: 0 2px;
+}
+
+@media (max-width: 768px) {
+  .admin-mobile-nav {
+    display: flex;
   }
 }
