@@ -1,4 +1,6 @@
-import { auth } from '@/lib/auth'
+'use client'
+
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 
 const stats = [
@@ -8,14 +10,14 @@ const stats = [
   { label: 'Skills', href: '/admin/skills', icon: 'code-slash-outline', color: '#8b5cf6' },
 ]
 
-export default async function AdminDashboardPage() {
-  const session = await auth()
+export default function AdminDashboardPage() {
+  const { data: session } = useSession()
 
   return (
     <div className="admin-dashboard">
       <header className="dashboard-header">
         <h1>Dashboard</h1>
-        <p>Welcome back, {session?.user?.name || session?.user?.email}</p>
+        <p>Welcome back, {session?.user?.name || session?.user?.email || 'Admin'}</p>
       </header>
 
       <section className="dashboard-stats">
@@ -82,23 +84,6 @@ export default async function AdminDashboardPage() {
           margin-bottom: 40px;
         }
 
-        :global(.stat-card) {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          padding: 24px;
-          background: #1e293b;
-          border-radius: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          text-decoration: none;
-          transition: all 0.2s;
-        }
-
-        :global(.stat-card:hover) {
-          transform: translateY(-4px);
-          border-color: rgba(255, 255, 255, 0.2);
-        }
-
         .stat-icon {
           width: 56px;
           height: 56px;
@@ -140,28 +125,6 @@ export default async function AdminDashboardPage() {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
           gap: 12px;
-        }
-
-        :global(.action-btn) {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 14px 20px;
-          background: rgba(255, 255, 255, 0.05);
-          border-radius: 8px;
-          color: rgba(255, 255, 255, 0.8);
-          text-decoration: none;
-          font-size: 15px;
-          transition: all 0.2s;
-        }
-
-        :global(.action-btn:hover) {
-          background: rgba(239, 68, 68, 0.2);
-          color: #ef4444;
-        }
-
-        :global(.action-btn ion-icon) {
-          font-size: 20px;
         }
       `}</style>
     </div>
