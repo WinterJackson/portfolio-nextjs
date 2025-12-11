@@ -19,12 +19,16 @@ export default function AdminLoginPage() {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
+    console.log('Attempting login with credentials:', { email })
+    
     try {
+      console.log('Calling signIn...')
       const result = await signIn('credentials', {
         email,
         password,
         redirect: false,
       })
+      console.log('SignIn result:', result)
 
       if (result?.error) {
         setError('Invalid email or password')
@@ -36,7 +40,8 @@ export default function AdminLoginPage() {
         setError('Login failed. Please try again.')
         setLoading(false)
       }
-    } catch {
+    } catch (error) {
+      console.error('Login error:', error)
       setError('An error occurred. Please try again.')
       setLoading(false)
     }
