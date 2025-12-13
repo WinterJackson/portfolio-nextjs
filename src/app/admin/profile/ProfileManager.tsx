@@ -191,7 +191,7 @@ export default function ProfileManager() {
 
         <div className={formStyles.group}>
           <label>WhatsApp Number</label>
-          <input {...register('whatsapp')} className={formStyles.input} placeholder="+254 123 456 789" />
+          <input {...register('whatsapp')} className={formStyles.input} placeholder="+234 123 456 789" />
         </div>
 
         <div className={formStyles.actions}>

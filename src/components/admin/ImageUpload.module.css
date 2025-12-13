@@ -73,11 +73,15 @@
 .textMain {
   font-size: 16px;
   font-weight: var(--fw-600);
+  text-align: center;
+  margin: 0 auto;
 }
 
 .textSub {
   font-size: 13px;
   color: var(--light-gray-70);
+  text-align: center;
+  margin: 0 auto;
 }
 
 /* Filled State */
@@ -96,6 +100,14 @@
   height: 100%;
   object-fit: contain;
   padding: 8px;
+  margin: 0 auto;
+  display: block;
+}
+
+video.previewImage {
+  width: 100%;
+  height: 100%; 
+  object-fit: contain;
 }
 
 .overlay {
