@@ -9,7 +9,6 @@
     "lint": "eslint",
     "postinstall": "prisma generate"
   },
-
   "prisma": {
     "seed": "npx tsx prisma/seed.ts"
   },
@@ -37,6 +36,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.8",
     "prisma": "^6.19.1",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

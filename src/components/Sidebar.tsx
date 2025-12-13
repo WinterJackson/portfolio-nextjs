@@ -1,5 +1,6 @@
 'use client'
 
+import { Whatsapp } from '@/lib/icons'
 import { Profile } from '@prisma/client'
 import { ChevronDown, Github, Linkedin, Mail, MapPin, Phone, Smartphone } from 'lucide-react'
 import Image from 'next/image'
@@ -143,7 +144,7 @@ export default function Sidebar({ profile }: SidebarProps) {
           {profile.whatsapp && (
             <li className="social-item">
               <a href={`https://wa.me/${profile.whatsapp.replace(/\s+/g, '')}`} className="social-link" target="_blank" rel="noopener noreferrer">
-                <Phone />
+                <Whatsapp size={18} />
               </a>
             </li>
           )}

@@ -193,7 +193,8 @@ section {
 }
 
 .copyright {
-  margin-bottom: 85px;
+  margin-top: 40px;
+  margin-bottom: 50px;
   padding-left: 10px;
   display: flex;
   color: white;
@@ -521,10 +522,14 @@ article.active {
   font-size: 13px;
   color: #ffffff;
   background: var(--border-gradient-onyx);
-  padding: 15px;
+  padding: 10px 15px;
   box-shadow: var(--shadow-2);
   transition: var(--transition-1);
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .info_more-btn::before {
@@ -543,7 +548,7 @@ article.active {
 .info_more-btn:hover::before,
 .info_more-btn:focus::before { background: var(--primary-color); }
 
-.info_more-btn span { display: none; }
+.info_more-btn span { display: block; }
 
 .sidebar-info_more {
   opacity: 0;
@@ -1105,9 +1110,10 @@ article.active {
   border-radius: 3px;
 }
 
-.t-text ion-icon {
+.t-text svg {
   color: white;
-  font-size: xx-large;
+  width: 28px;
+  height: 28px;
 }
 
 
