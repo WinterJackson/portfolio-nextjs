@@ -1,4 +1,3 @@
-import { DynamicIcon } from '@/lib/icons'
 import { Profile, Service, Skill, Testimonial } from '@prisma/client'
 import { Linkedin, X } from 'lucide-react'
 import Image from 'next/image'
@@ -15,13 +14,37 @@ interface AboutProps {
 export default function About({ isActive, profile, testimonials, services, skills }: AboutProps) {
   const [activeModal, setActiveModal] = useState<Testimonial | null>(null)
 
+  // Static lists as per user request for accurate implementation
+  const languagesData = [
+    { name: 'CSS3', icon: '/images/CSS3.png' },
+    { name: 'HTML5', icon: '/images/HTML5.png' },
+    { name: 'JavaScript', icon: '/images/javascript.svg' },
+    { name: 'React', icon: '/images/react.svg' },
+    { name: 'Tailwind CSS', icon: '/images/Tailwind.png' },
+    { name: 'Next.js', icon: '/images/nextjs-dark.svg' },
+    { name: 'Node.js', icon: '/images/nodejs.svg' },
+    { name: 'Python', icon: '/images/python.svg' },
+    { name: 'Flask', icon: '/images/flask.svg' },
+    { name: 'MySQL', icon: '/images/mysql.svg' },
+    { name: 'SQLite', icon: '/images/sqlite.png' },
+    { name: 'SQLAlchemy', icon: '/images/sqlalchemy.png' },
+    { name: 'Ruby', icon: '/images/Ruby.png' },
+    { name: 'MongoDB', icon: '/images/MongoDB.svg' },
+    { name: 'Jest', icon: '/images/Jest.svg' },
+  ]
+
+  const toolsData = [
+    { name: 'Linux', icon: '/images/Linux.png' },
+    { name: 'Postman', icon: '/images/Postman.svg' },
+    { name: 'PostgreSQL', icon: '/images/postgresql.svg' },
+    { name: 'Heroku', icon: '/images/Heroku.png' },
+    { name: 'Git', icon: '/images/Git.png' },
+    { name: 'Figma', icon: '/images/Figma.png' },
+  ]
+
   // Filter Services
   const whatIDo = services.filter(s => s.category === 'service' || !s.category)
   const personalVentures = services.filter(s => s.category === 'venture')
-
-  // Filter Skills
-  const myLanguages = skills.filter(s => ['frontend', 'backend', 'database'].includes(s.category.toLowerCase()))
-  const myTools = skills.filter(s => ['tools', 'other'].includes(s.category.toLowerCase()))
 
   return (
     <article className={`about ${isActive ? 'active' : ''}`} data-page="about">
@@ -66,25 +89,17 @@ export default function About({ isActive, profile, testimonials, services, skill
             </div>
             {[0, 1].map((wrapIndex) => (
               <div key={wrapIndex} className="languages-items-wrap">
-                {myLanguages.map((lang, index) => (
+                {languagesData.map((lang, index) => (
                   <div key={index} className="slider-item">
                     <div className="slider-img-container">
-                      {lang.iconUrl ? (
-                         lang.iconUrl.startsWith('http') || lang.iconUrl.startsWith('/') ? (
-                            <Image 
-                              src={lang.iconUrl} 
-                              alt={`${lang.name} logo`} 
-                              width={60} 
-                              height={60}
-                              unoptimized
-                              style={{ objectFit: 'contain', width: '60px', height: '60px' }}
-                            />
-                         ) : (
-                            <DynamicIcon name={lang.iconUrl} size={60} />
-                         )
-                      ) : (
-                         <div className="text-xl font-bold">{lang.name.substring(0, 2)}</div>
-                      )}
+                      <Image 
+                        src={lang.icon} 
+                        alt={`${lang.name} logo`} 
+                        width={60} 
+                        height={60}
+                        unoptimized
+                        style={{ objectFit: 'contain', width: '60px', height: '60px' }}
+                      />
                     </div>
                     <p>{lang.name}</p>
                   </div>
@@ -99,25 +114,17 @@ export default function About({ isActive, profile, testimonials, services, skill
             </div>
             {[0, 1].map((wrapIndex) => (
               <div key={wrapIndex} className="others-items-wrap">
-                {myTools.map((tool, index) => (
+                {toolsData.map((tool, index) => (
                   <div key={index} className="slider-item">
                     <div className="slider-img-container">
-                      {tool.iconUrl ? (
-                         tool.iconUrl.startsWith('http') || tool.iconUrl.startsWith('/') ? (
-                            <Image 
-                              src={tool.iconUrl} 
-                              alt={`${tool.name} logo`} 
-                              width={60} 
-                              height={60}
-                              unoptimized
-                              style={{ objectFit: 'contain', width: '60px', height: '60px' }}
-                            />
-                         ) : (
-                            <DynamicIcon name={tool.iconUrl} size={60} />
-                         )
-                      ) : (
-                         <div className="text-xl font-bold">{tool.name.substring(0, 2)}</div>
-                      )}
+                       <Image 
+                          src={tool.icon} 
+                          alt={`${tool.name} logo`} 
+                          width={60} 
+                          height={60}
+                          unoptimized
+                          style={{ objectFit: 'contain', width: '60px', height: '60px' }}
+                        />
                     </div>
                     <p>{tool.name}</p>
                   </div>
