@@ -1,6 +1,4 @@
-import { mkdir, writeFile } from 'fs/promises'
 import { NextRequest, NextResponse } from 'next/server'
-import path from 'path'
 
 export async function POST(request: NextRequest) {
     try {
@@ -11,24 +9,47 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'No file provided' }, { status: 400 })
         }
 
-        // Determine directory based on file type
-        const isVideo = file.type.startsWith('video/')
-        const uploadDir = isVideo ? 'videos' : 'images/uploads'
-        const targetDir = path.join(process.cwd(), 'public', uploadDir)
+        // Get Cloudinary config from env
+        const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+        const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
 
-        await mkdir(targetDir, { recursive: true })
+        if (!cloudName || !uploadPreset) {
+            console.error('Cloudinary config missing')
+            return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
+        }
 
-        // Generate unique filename
-        const bytes = await file.arrayBuffer()
-        const buffer = Buffer.from(bytes)
-        const filename = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '')}`
-        const filepath = path.join(targetDir, filename)
+        // Prepare upload to Cloudinary
+        const uploadFormData = new FormData()
+        uploadFormData.append('file', file)
+        uploadFormData.append('upload_preset', uploadPreset)
 
-        // Write file
-        await writeFile(filepath, buffer)
+        // Upload to Cloudinary
+        const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`,
+            {
+                method: 'POST',
+                body: uploadFormData,
+            }
+        )
 
-        // Return public URL
-        return NextResponse.json({ url: `/${uploadDir}/${filename}` })
+        if (!response.ok) {
+            const error = await response.json()
+            console.error('Cloudinary error:', error)
+            throw new Error('Cloudinary upload failed')
+        }
+
+        const data = await response.json()
+
+        // Return the secure URL from Cloudinary
+        return NextResponse.json({
+            url: data.secure_url,
+            // Include other metadata if needed
+            width: data.width,
+            height: data.height,
+            format: data.format,
+            resource_type: data.resource_type
+        })
+
     } catch (error) {
         console.error('Upload error:', error)
         return NextResponse.json({ error: 'Upload failed' }, { status: 500 })
