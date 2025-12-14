@@ -221,7 +221,7 @@ export default function AdminSettingsPage() {
                             <ImageUpload 
                                 value={watchSettings('logoUrl') || ''} 
                                 onChange={(url) => setValueSettings('logoUrl', url)} 
-                                label="Site Logo (Favicon/Navbar)"
+                                label="Site Favicon"
                             />
                         </div>
 

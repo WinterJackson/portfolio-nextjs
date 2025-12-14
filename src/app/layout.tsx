@@ -27,10 +27,9 @@ export async function generateMetadata(): Promise<Metadata> {
       images: settings?.ogImageUrl ? [{ url: settings.ogImageUrl }] : [],
     },
     icons: {
-      icon: [
-        { url: '/images/my-avatar.webp', type: 'image/webp' },
-        { url: '/images/my-avatar.png', type: 'image/png' },
-      ],
+      icon: settings?.logoUrl || '/images/my-avatar.webp',
+      shortcut: settings?.logoUrl || '/images/my-avatar.webp',
+      apple: settings?.logoUrl || '/images/my-avatar.webp',
     },
   }
 }
