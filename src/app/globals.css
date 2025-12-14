@@ -1008,6 +1008,8 @@ article.active {
   scroll-behavior: smooth;
   overscroll-behavior-inline: contain;
   scroll-snap-type: inline mandatory;
+  list-style: none;
+  padding-bottom: 40px; /* Ensure space for scrollbar */
 }
 
 .testimonials-item {
@@ -2276,30 +2278,32 @@ textarea.form-input::-webkit-resizer { display: none; }
     padding: 30px;
     padding-bottom: 35px;
   }
-
-  .content-card {
-    display: block;
-    padding: 30px;
-    padding-top: 25px;
+  
+  .testimonials-item {
+     min-width: calc(50% - 15px);
+     width: calc(50% - 15px);
   }
 
+  /* Retain Mobile's Grid Layout for internal card content (Avatar left, Text right) */
+  .testimonials-item .content-card {
+    padding: 30px;
+    gap: 20px;
+  }
+  
   .testimonials-avatar-box {
-    position: absolute;
-    transform: translate(30px, -30px);
+    width: 80px;
+    height: 80px;
     border-radius: 10px;
   }
 
-  .testimonials-avatar-box img { width: 80px; }
-
   .testimonials-item-title {
-    margin-bottom: 10px;
-    margin-left: 95px;
+    margin-bottom: 5px;
   }
 
+  /* Clean up text clamping for larger screens */
   .testimonials-text {
-    margin-top: 0;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
+    line-clamp: 4; /* Keep generous text space */
+    -webkit-line-clamp: 4;
   }
 
   /* testimonials modal */
@@ -2637,7 +2641,9 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   /* testimonials */
 
-  .testimonials-item { min-width: calc(50% - 15px); }
+  /* testimonials */
+
+  .testimonials-item { min-width: calc(50% - 25px); width: calc(50% - 25px); }
 
   /* clients */
 
