@@ -56,21 +56,22 @@ export default function Contact({ isActive, profile }: ContactProps) {
         <h2 className="h2 article-title">Contact</h2>
       </header>
 
-      <section className="mapbox" data-mapbox>
+      <section className="mapbox" data-mapbox style={{ opacity: 1, visibility: 'visible', display: 'block' }}>
         <figure>
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.2947436408396!2d36.81667!3d-1.28333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f17611092a36f%3A0x5a1607e2d0e59f29!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2sbd!4v1647608789441!5m2!1sen!2sbd"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=36.65084838867188%2C-1.4468644557989504%2C37.10884094238281%2C-1.1245846171569486&layer=mapnik&marker=-1.285871781297127%2C36.8219455"
             width="400"
             height="300"
             style={{ border: 0 }}
             allowFullScreen
-            loading="lazy"
+            loading="eager"
             referrerPolicy="no-referrer-when-downgrade"
+            title="Map of Nairobi, Kenya"
           ></iframe>
         </figure>
       </section>
 
-      <section className="contact-form">
+      <section className="hidden show contact-form">
         <h3 className="h3 form-title">Contact Form</h3>
 
         <form

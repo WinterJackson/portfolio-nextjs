@@ -887,8 +887,17 @@ article.active {
   width: 60px !important;
   height: 60px !important;
   object-fit: contain !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
   filter: none !important;  /* Ensure no filters are applied */
   color-scheme: normal;  /* Prevent inverted colors */
+}
+
+/* Explicitly handle the 'hidden show mapbox' case */
+.mapbox.show {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .languages-items-wrap img {
