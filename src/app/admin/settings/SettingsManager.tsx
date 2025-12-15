@@ -1,14 +1,14 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Globe, Key, Mail, Save, Settings, ToggleLeft, User } from 'lucide-react'
+import { AlertTriangle, Database, Eye, EyeOff, Globe, Key, Mail, Save, Settings, ToggleLeft, User } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
 import ImageUpload from '@/components/admin/ImageUpload'
-import { EmailChangeFormData, EmailChangeSchema, PasswordChangeFormData, PasswordChangeSchema, SiteSettingsFormData, SiteSettingsSchema } from '@/lib/schemas'
+import { EmailChangeFormData, EmailChangeSchema, EnvVariablesFormData, EnvVariablesSchema, PasswordChangeFormData, PasswordChangeSchema, SiteSettingsFormData, SiteSettingsSchema } from '@/lib/schemas'
 
 import formStyles from '@/components/admin/AdminForm.module.css'
 import adminStyles from '@/components/admin/Shared.module.css'
@@ -16,8 +16,13 @@ import adminStyles from '@/components/admin/Shared.module.css'
 import styles from './Settings.module.css'
 
 export default function AdminSettingsPage() {
-  const [activeTab, setActiveTab] = useState<'general' | 'features' | 'seo' | 'account'>('general')
+  const [activeTab, setActiveTab] = useState<'general' | 'features' | 'seo' | 'account' | 'env'>('general')
   const [loading, setLoading] = useState(true)
+
+  // Visibility States
+  const [showDatabaseUrl, setShowDatabaseUrl] = useState(false)
+  const [showNextAuthSecret, setShowNextAuthSecret] = useState(false)
+  const [showGoogleClientSecret, setShowGoogleClientSecret] = useState(false)
 
   // Settings Form (Hooks kept same)
   const {
@@ -77,8 +82,30 @@ export default function AdminSettingsPage() {
     }
   })
 
+
+  // Environment Vars Form
+  const {
+      register: registerEnv,
+      handleSubmit: handleSubmitEnv,
+      reset: resetEnv,
+      formState: { errors: errorsEnv, isSubmitting: isSubmittingEnv }
+  } = useForm<EnvVariablesFormData>({
+      resolver: zodResolver(EnvVariablesSchema),
+      defaultValues: {
+          DATABASE_URL: '',
+          NEXTAUTH_URL: '',
+          NEXTAUTH_SECRET: '',
+          GOOGLE_CLIENT_ID: '',
+          GOOGLE_CLIENT_SECRET: '',
+          NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: '',
+          NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: '',
+          currentPassword: ''
+      }
+  })
+
   useEffect(() => {
     fetchSettings()
+    fetchEnvVars()
   }, [])
 
   const fetchSettings = async () => {
@@ -111,6 +138,19 @@ export default function AdminSettingsPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const fetchEnvVars = async () => {
+      try {
+          const res = await fetch('/api/admin/env')
+          if (res.ok) {
+              const data = await res.json()
+              resetEnv(data)
+          }
+      } catch (error) {
+          console.error('Failed to fetch env vars:', error)
+          // Don't show toast here to avoid clutter on load if it fails silently
+      }
   }
 
   const onSettingsSubmit = async (data: SiteSettingsFormData) => {
@@ -171,6 +211,27 @@ export default function AdminSettingsPage() {
     }
   }
 
+  const onEnvSubmit = async (data: EnvVariablesFormData) => {
+      if (!confirm('Changing environment variables may require a server restart to take full effect. Are you sure you want to proceed?')) {
+          return
+      }
+
+      try {
+          const res = await fetch('/api/admin/env', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+          })
+          
+          if (!res.ok) throw new Error('Failed to update environment variables')
+          
+          toast.success('Environment variables updated. Please restart the server if changes do not appear.')
+      } catch (error) {
+          console.error('Failed to update env vars:', error)
+          toast.error('Failed to update environment variables')
+      }
+  }
+
   if (loading) {
     return <div className="loading">Loading...</div>
   }
@@ -179,6 +240,7 @@ export default function AdminSettingsPage() {
     { id: 'general', label: 'General & Identity', icon: Settings },
     { id: 'features', label: 'Features & Toggles', icon: ToggleLeft },
     { id: 'seo', label: 'SEO & Analytics', icon: Globe },
+    { id: 'env', label: 'Environment', icon: Database },
     { id: 'account', label: 'Account', icon: User },
   ]
 
@@ -205,7 +267,7 @@ export default function AdminSettingsPage() {
 
       <div className={styles.container}>
         {/* Settings Forms */}
-        {activeTab !== 'account' && (
+        {activeTab !== 'account' && activeTab !== 'env' && (
              <form onSubmit={handleSubmitSettings(onSettingsSubmit)} className={formStyles.form}>
                 
                 {/* General Tab */}
@@ -370,6 +432,130 @@ export default function AdminSettingsPage() {
                     </button>
                 </div>
              </form>
+        )}
+
+        {/* Environment Tab */}
+        {activeTab === 'env' && (
+            <form onSubmit={handleSubmitEnv(onEnvSubmit)} className={formStyles.form}>
+                <h3 className={styles.sectionTitle}>Environment Variables</h3>
+                <div className={styles.alertWarning}>
+                    <AlertTriangle size={20} />
+                    <p>
+                        <strong>Warning:</strong> Modifying these values updates the <code>.env</code> file directly. 
+                        Incorrect values can break the application. A server restart is usually required for changes to take effect.
+                    </p>
+                </div>
+
+                <div className={formStyles.group}>
+                    <label>Database URL</label>
+                    <div className={styles.passwordWrapper}>
+                        <input 
+                            type={showDatabaseUrl ? 'text' : 'password'} 
+                            {...registerEnv('DATABASE_URL')} 
+                            className={`${formStyles.input} ${styles.passwordInput}`} 
+                            placeholder="postgresql://..." 
+                        />
+                         <button
+                            type="button"
+                            onClick={() => setShowDatabaseUrl(!showDatabaseUrl)}
+                            className={styles.passwordToggle}
+                        >
+                            {showDatabaseUrl ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                    </div>
+                </div>
+
+                <div className={formStyles.group}>
+                    <label>NextAuth URL</label>
+                    <input type="text" {...registerEnv('NEXTAUTH_URL')} className={formStyles.input} placeholder="http://localhost:3000" />
+                </div>
+
+                <div className={formStyles.group}>
+                    <label>NextAuth Secret</label>
+                     <div className={styles.passwordWrapper}>
+                        <input 
+                            type={showNextAuthSecret ? 'text' : 'password'} 
+                            {...registerEnv('NEXTAUTH_SECRET')} 
+                            className={`${formStyles.input} ${styles.passwordInput}`} 
+                        />
+                         <button
+                            type="button"
+                            onClick={() => setShowNextAuthSecret(!showNextAuthSecret)}
+                            className={styles.passwordToggle}
+                        >
+                            {showNextAuthSecret ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                    </div>
+                </div>
+
+                <hr className={styles.divider} />
+
+                <h3 className={styles.sectionTitle}>Third Party Services</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <div className={formStyles.group}>
+                        <label>Google Client ID</label>
+                        <input type="text" {...registerEnv('GOOGLE_CLIENT_ID')} className={formStyles.input} />
+                    </div>
+                     <div className={formStyles.group}>
+                        <label>Google Client Secret</label>
+                        <div className={styles.passwordWrapper}>
+                            <input 
+                                type={showGoogleClientSecret ? 'text' : 'password'} 
+                                {...registerEnv('GOOGLE_CLIENT_SECRET')} 
+                                className={`${formStyles.input} ${styles.passwordInput}`} 
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowGoogleClientSecret(!showGoogleClientSecret)}
+                                className={styles.passwordToggle}
+                            >
+                                {showGoogleClientSecret ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <div className={formStyles.group}>
+                        <label>Cloudinary Cloud Name</label>
+                        <input type="text" {...registerEnv('NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME')} className={formStyles.input} />
+                    </div>
+                     <div className={formStyles.group}>
+                        <label>Cloudinary Upload Preset</label>
+                        <input type="text" {...registerEnv('NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET')} className={formStyles.input} />
+                    </div>
+                </div>
+
+                <hr className={styles.divider} />
+
+                <div className={formStyles.group}>
+                    <label>Confirm Changes</label>
+                    <input 
+                        type="password" 
+                        {...registerEnv('currentPassword')} 
+                        className={formStyles.input} 
+                        placeholder="Enter your password to save changes"
+                    />
+                    {errorsEnv.currentPassword && <span className="error">{errorsEnv.currentPassword.message}</span>}
+                </div>
+
+                <div className="flex justify-end pt-8 border-t border-gray-700 mt-8">
+                    <button type="submit" className={formStyles.saveBtn} disabled={isSubmittingEnv}>
+                        {isSubmittingEnv ? (
+                            <>
+                                <span className={styles.loadingSpinner}></span>
+                                Saving...
+                            </>
+                        ) : (
+                            <>
+                                <Save />
+                                Save Configuration
+                            </>
+                        )}
+                    </button>
+                </div>
+            </form>
         )}
 
         {/* Account Tab */}

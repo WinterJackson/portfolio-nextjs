@@ -139,3 +139,16 @@ export type TestimonialFormData = z.infer<typeof TestimonialSchema>
 export type ProfileFormData = z.infer<typeof ProfileSchema>
 export type SiteSettingsFormData = z.infer<typeof SiteSettingsSchema>
 export type ClientFormData = z.infer<typeof ClientSchema>
+
+export const EnvVariablesSchema = z.object({
+    DATABASE_URL: z.string().optional(),
+    NEXTAUTH_URL: z.string().url('Invalid URL').optional(),
+    NEXTAUTH_SECRET: z.string().optional(),
+    GOOGLE_CLIENT_ID: z.string().optional(),
+    GOOGLE_CLIENT_SECRET: z.string().optional(),
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().optional(),
+    NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: z.string().optional(),
+    currentPassword: z.string().min(1, 'Current password is required to save changes'),
+})
+
+export type EnvVariablesFormData = z.infer<typeof EnvVariablesSchema>

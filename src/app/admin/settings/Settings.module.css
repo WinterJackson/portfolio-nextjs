@@ -187,3 +187,52 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+/* Password Toggle Styles */
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.passwordInput {
+  padding-right: 40px !important; /* Make room for the eye icon */
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--light-gray-70);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-1);
+  z-index: 2;
+}
+
+.passwordToggle:hover {
+  color: var(--bittersweet-shimmer); /* Use accent color on hover for nice touch */
+}
+
+.alertWarning {
+    background: rgba(255, 165, 0, 0.1);
+    border: 1px solid rgba(255, 165, 0, 0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+    color: var(--white-2);
+    font-size: 14px;
+}
+
+.alertWarning svg {
+    color: orange;
+    flex-shrink: 0;
+}
