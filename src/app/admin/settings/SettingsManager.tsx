@@ -37,7 +37,7 @@ export default function AdminSettingsPage() {
       ogImageUrl: '',
       showResumeDownload: true,
       logoUrl: '',
-      footerText: '© 2024 Winter Jackson. All rights reserved.',
+      footerText: `© ${new Date().getFullYear()} Winter Jackson. All rights reserved.`,
       showTestimonials: true,
       showProjects: true,
       showServices: true,
@@ -77,7 +77,7 @@ export default function AdminSettingsPage() {
             ...data,
             showResumeDownload: data.showResumeDownload ?? true,
             logoUrl: data.logoUrl || '',
-            footerText: data.footerText || '© 2024 Winter Jackson. All rights reserved.',
+            footerText: data.footerText || `© ${new Date().getFullYear()} Winter Jackson. All rights reserved.`,
             showTestimonials: data.showTestimonials ?? true,
             showProjects: data.showProjects ?? true,
             showServices: data.showServices ?? true,
@@ -202,7 +202,7 @@ export default function AdminSettingsPage() {
                                 type="text" 
                                 {...registerSettings('footerText')} 
                                 className={formStyles.input} 
-                                placeholder="© 2024 Winter Jackson. All rights reserved."
+                                placeholder={`© ${new Date().getFullYear()} Winter Jackson. All rights reserved.`}
                             />
                         </div>
                         

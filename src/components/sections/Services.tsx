@@ -55,8 +55,8 @@ export default function Services({ isActive, services, clients }: ServicesProps)
             {[0, 1].map((wrapIndex) => (
               <div key={wrapIndex} className="client-items-wrap">
                 {clients.map((client) => (
-                  <div key={client.id} className="client-item" style={{ width: '250px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '15px' }}>
-                    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <div key={client.id} className="client-item" style={{ width: '250px', height: '200px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '15px'}}>
+                    <div style={{ position: 'relative', width: '100%', height: '100%', backgroundColor: '#ddd5c5c9' }}>
                       <Image 
                         src={client.logoUrl} 
                         alt={client.name} 

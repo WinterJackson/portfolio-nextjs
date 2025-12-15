@@ -60,23 +60,36 @@ export async function proxy(request: NextRequest) {
         // Create response with security headers
         const response = NextResponse.next()
 
-        // Security Headers
-        response.headers.set('X-Frame-Options', 'DENY')
-        response.headers.set('X-Content-Type-Options', 'nosniff')
-        response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
-        response.headers.set('X-XSS-Protection', '1; mode=block')
+        // 1. Strict Transport Security (HSTS)
+        // Force HTTPS for 2 years, include subdomains, allow preload
+        response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
 
-        // Content Security Policy
+        // 2. X-Frame-Options (Clickjacking protection)
+        response.headers.set('X-Frame-Options', 'DENY')
+
+        // 3. X-Content-Type-Options (MIME-sniffing protection)
+        response.headers.set('X-Content-Type-Options', 'nosniff')
+
+        // 4. Referrer Policy
+        response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+
+        // 5. Permisson Policy (Disable unused features)
+        response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()')
+
+        // 6. Content Security Policy (CSP)
         response.headers.set(
             'Content-Security-Policy',
             [
                 "default-src 'self'",
-                "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://unpkg.com",
+                "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://unpkg.com https://www.googletagmanager.com",
                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
                 "font-src 'self' https://fonts.gstatic.com",
-                "img-src 'self' data: https: blob:",
-                "connect-src 'self' https://res.cloudinary.com",
+                "img-src 'self' data: https: blob: https://www.google-analytics.com",
+                "connect-src 'self' https://res.cloudinary.com https://www.google-analytics.com https://analytics.google.com",
                 "frame-ancestors 'none'",
+                "object-src 'none'",
+                "base-uri 'self'",
+                "form-action 'self'",
             ].join('; ')
         )
 
@@ -91,5 +104,9 @@ export async function proxy(request: NextRequest) {
 export default proxy
 
 export const config = {
-    matcher: ['/admin/:path*'],
+    // Match all request paths except for the ones starting with:
+    // - _next/static (static files)
+    // - _next/image (image optimization files)
+    // - favicon.ico (favicon file)
+    matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
 }

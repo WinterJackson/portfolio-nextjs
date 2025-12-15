@@ -85,7 +85,7 @@ export default function AdminLayoutClient({ children, profile, settings }: Admin
         <div className="copyright" style={{ marginTop: 'auto', paddingTop: '2rem', paddingBottom: '1rem', color: '#888' }}>
             <div className="cc-text">
             {settings?.footerText ? (
-                <p>{settings.footerText.replace('{year}', currentYear.toString())}</p>
+                <p>{settings.footerText.replace(/\{year\}|202[0-9]/g, currentYear.toString())}</p>
             ) : (
                 <p>All Rights Reserved. &copy; <em id="currentYear">{currentYear}</em> | {profile?.name || 'Winter Jackson'}</p>
             )}

@@ -1,3 +1,4 @@
+import { auth } from '@/lib/auth'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
@@ -7,6 +8,12 @@ export async function POST(request: NextRequest) {
 
         if (!file) {
             return NextResponse.json({ error: 'No file provided' }, { status: 400 })
+        }
+
+        // Authenticate User
+        const session = await auth()
+        if (!session) {
+            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
         // Get Cloudinary config from env
