@@ -148,6 +148,13 @@ export const EnvVariablesSchema = z.object({
     GOOGLE_CLIENT_SECRET: z.string().optional(),
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().optional(),
     NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: z.string().optional(),
+
+    // Email (SMTP)
+    SMTP_HOST: z.string().optional(),
+    SMTP_PORT: z.string().optional(),
+    SMTP_USER: z.string().optional(),
+    SMTP_PASSWORD: z.string().optional(),
+
     currentPassword: z.string().min(1, 'Current password is required to save changes'),
 })
 

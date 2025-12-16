@@ -23,6 +23,7 @@ export default function AdminSettingsPage() {
   const [showDatabaseUrl, setShowDatabaseUrl] = useState(false)
   const [showNextAuthSecret, setShowNextAuthSecret] = useState(false)
   const [showGoogleClientSecret, setShowGoogleClientSecret] = useState(false)
+  const [showSmtpPassword, setShowSmtpPassword] = useState(false)
 
   // Settings Form (Hooks kept same)
   const {
@@ -99,6 +100,10 @@ export default function AdminSettingsPage() {
           GOOGLE_CLIENT_SECRET: '',
           NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: '',
           NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET: '',
+          SMTP_HOST: '',
+          SMTP_PORT: '',
+          SMTP_USER: '',
+          SMTP_PASSWORD: '',
           currentPassword: ''
       }
   })
@@ -524,6 +529,44 @@ export default function AdminSettingsPage() {
                      <div className={formStyles.group}>
                         <label>Cloudinary Upload Preset</label>
                         <input type="text" {...registerEnv('NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET')} className={formStyles.input} />
+                    </div>
+                </div>
+
+                <hr className={styles.divider} />
+
+                <h3 className={styles.sectionTitle}>Email Configuration (SMTP)</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <div className={formStyles.group}>
+                        <label>SMTP Host</label>
+                        <input type="text" {...registerEnv('SMTP_HOST')} className={formStyles.input} placeholder="smtp.gmail.com" />
+                    </div>
+                     <div className={formStyles.group}>
+                        <label>SMTP Port</label>
+                        <input type="text" {...registerEnv('SMTP_PORT')} className={formStyles.input} placeholder="465" />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                     <div className={formStyles.group}>
+                        <label>SMTP User (Email)</label>
+                        <input type="text" {...registerEnv('SMTP_USER')} className={formStyles.input} placeholder="user@gmail.com" />
+                    </div>
+                     <div className={formStyles.group}>
+                        <label>SMTP Password</label>
+                        <div className={styles.passwordWrapper}>
+                            <input 
+                                type={showSmtpPassword ? 'text' : 'password'} 
+                                {...registerEnv('SMTP_PASSWORD')} 
+                                className={`${formStyles.input} ${styles.passwordInput}`} 
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowSmtpPassword(!showSmtpPassword)}
+                                className={styles.passwordToggle}
+                            >
+                                {showSmtpPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                        </div>
                     </div>
                 </div>
 

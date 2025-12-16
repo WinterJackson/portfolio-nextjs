@@ -97,7 +97,11 @@ export async function PUT(req: Request) {
             'GOOGLE_CLIENT_ID',
             'GOOGLE_CLIENT_SECRET',
             'NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME',
-            'NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET'
+            'NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET',
+            'SMTP_HOST',
+            'SMTP_PORT',
+            'SMTP_USER',
+            'SMTP_PASSWORD'
         ])
 
         const filteredUpdates: Record<string, string> = {}
