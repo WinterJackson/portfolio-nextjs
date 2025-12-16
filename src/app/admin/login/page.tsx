@@ -115,8 +115,17 @@ export default function AdminLoginPage() {
               </div>
             </div>
 
-            <button 
-              type="submit" 
+          <div className="flex justify-end mb-6">
+            <Link 
+              href="/admin/forgot-password" 
+              className={styles.forgotPasswordLink}
+            >
+              Forgot password?
+            </Link>
+          </div>
+
+          <button
+            type="submit" 
               className={`${styles.loginBtn} ${styles.primaryBtn}`}
               disabled={loading}
             >

@@ -4,6 +4,7 @@ import { Whatsapp } from '@/lib/icons'
 import { Profile } from '@prisma/client'
 import { ChevronDown, Github, Linkedin, Mail, MapPin, Phone, Smartphone } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 
 interface SidebarProps {
@@ -54,7 +55,9 @@ export default function Sidebar({ profile }: SidebarProps) {
 
         <div className="info-content">
           <h1 className="name" title={profile.name}>{profile.name}.</h1>
-          <p className="title">{profile.title}.</p>
+          <Link href="/admin/login" className="title" title="Admin Login">
+            {profile.title}.
+          </Link>
         </div>
 
         <button

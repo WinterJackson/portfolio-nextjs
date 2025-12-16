@@ -206,3 +206,47 @@
 .passwordToggle:hover {
   color: var(--white-1);
 }
+
+.forgotPasswordLink {
+  color: var(--white-1);
+  font-size: var(--fs-5);
+  text-decoration: none;
+  transition: var(--transition-1);
+}
+
+.forgotPasswordLink:hover {
+  text-decoration: underline;
+}
+
+/* Success State Styles */
+.successContainer {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.successTitle {
+  font-size: var(--fs-3);
+  color: var(--white-1);
+  font-weight: var(--fw-600);
+  margin-bottom: 10px;
+}
+
+.successText {
+  color: var(--light-gray);
+  font-size: var(--fs-6);
+  line-height: 1.6;
+  margin-bottom: 30px;
+}

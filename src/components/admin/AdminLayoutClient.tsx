@@ -25,13 +25,24 @@ export default function AdminLayoutClient({ children, profile, settings }: Admin
   const currentYear = new Date().getFullYear()
 
   React.useEffect(() => {
-    if (status === 'unauthenticated' && pathname !== '/admin/login') {
+    // Whitelist public admin routes
+    const isPublic = 
+        pathname === '/admin/login' || 
+        pathname === '/admin/forgot-password' || 
+        pathname === '/admin/reset-password'
+
+    if (status === 'unauthenticated' && !isPublic) {
       router.push('/admin/login')
     }
   }, [status, pathname, router])
 
-  // If we're on the login page, don't show the admin layout
-  if (pathname === '/admin/login') {
+  // If we're on a public admin page, don't show the admin layout
+  const isPublicPage = 
+    pathname === '/admin/login' || 
+    pathname === '/admin/forgot-password' || 
+    pathname === '/admin/reset-password'
+
+  if (isPublicPage) {
     return (
       <>
         {children}
@@ -44,7 +55,7 @@ export default function AdminLayoutClient({ children, profile, settings }: Admin
       return null // Or a spinner
   }
 
-  if (!session && pathname !== '/admin/login') {
+  if (!session && !isPublicPage) {
       return null // Prevent flash before redirect happens in useEffect
   }
 

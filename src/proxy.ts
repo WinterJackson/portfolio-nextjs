@@ -38,6 +38,11 @@ export async function proxy(request: NextRequest) {
 
         const isAdminRoute = pathname.startsWith('/admin')
         const isLoginPage = pathname === '/admin/login'
+        const isPublicAdminRoute =
+            pathname === '/admin/login' ||
+            pathname === '/admin/forgot-password' ||
+            pathname === '/admin/reset-password'
+
         const isApiAuthRoute = pathname.startsWith('/api/auth')
 
         // Allow API auth routes
@@ -46,13 +51,13 @@ export async function proxy(request: NextRequest) {
         }
 
         // Redirect to login if accessing protected admin routes without token
-        if (isAdminRoute && !token && !isLoginPage) {
+        if (isAdminRoute && !token && !isPublicAdminRoute) {
             console.log('[Middleware] Redirecting to login (No token)')
             return NextResponse.redirect(new URL('/admin/login', request.url))
         }
 
-        // Redirect to admin dashboard if logged in and trying to access login page
-        if (isLoginPage && token) {
+        // Redirect to admin dashboard if logged in and trying to access public admin pages (login/forgot/reset)
+        if (isPublicAdminRoute && token) {
             console.log('[Middleware] Redirecting to dashboard (Already logged in)')
             return NextResponse.redirect(new URL('/admin', request.url))
         }
