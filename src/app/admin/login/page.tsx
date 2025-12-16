@@ -4,7 +4,7 @@ import { AlertCircle, ArrowLeft, Eye, EyeOff, Lock, LogIn, Mail } from 'lucide-r
 import { signIn, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './Login.module.css'
 
 export default function AdminLoginPage() {
@@ -15,9 +15,9 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false)
 
   // Prefetch admin dashboard for instant transition
-  useState(() => {
+  useEffect(() => {
     router.prefetch('/admin')
-  })
+  }, [router])
 
   // Redirect if already logged in
   if (status === 'authenticated') {
