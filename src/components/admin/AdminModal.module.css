@@ -82,4 +82,14 @@
   .body {
     padding: 20px;
   }
+
+  /* Efficiently sizing text for mobile screens */
+  .header h2 {
+    font-size: 18px; /* Reduced from browser default ~24px */
+    line-height: 1.3;
+  }
+
+  .body {
+    font-size: 14px; /* Ensure body text isn't too large */
+  }
 }
