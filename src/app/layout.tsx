@@ -31,6 +31,15 @@ export async function generateMetadata(): Promise<Metadata> {
       shortcut: settings?.logoUrl || '/images/my-avatar.webp',
       apple: settings?.logoUrl || '/images/my-avatar.webp',
     },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: 'default',
+      title: settings?.metaTitle || 'Winter Jackson',
+    },
+    formatDetection: {
+      telephone: false,
+    },
+
   }
 }
 
