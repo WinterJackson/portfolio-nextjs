@@ -25,15 +25,8 @@ export default function AdminLayoutClient({ children, profile, settings }: Admin
   const currentYear = new Date().getFullYear()
 
   React.useEffect(() => {
-    // Whitelist public admin routes
-    const isPublic = 
-        pathname === '/admin/login' || 
-        pathname === '/admin/forgot-password' || 
-        pathname === '/admin/reset-password'
-
-    if (status === 'unauthenticated' && !isPublic) {
-      router.push('/admin/login')
-    }
+    // Rely on server-side protection in proxy.ts/middleware for stronger security
+    // This avoids race conditions where client-side state hasn't synced yet
   }, [status, pathname, router])
 
   // If we're on a public admin page, don't show the admin layout

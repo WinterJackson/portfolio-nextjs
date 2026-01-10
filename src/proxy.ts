@@ -23,7 +23,7 @@ export async function proxy(request: NextRequest) {
     try {
         const token = await getToken({
             req: request,
-            secret: process.env.NEXTAUTH_SECRET,
+            secret: process.env.AUTH_SECRET,
             cookieName: cookieName
         })
 
@@ -33,7 +33,7 @@ export async function proxy(request: NextRequest) {
         } else {
             // Detailed failure log
             console.log('[Middleware] Decryption failed or token missing.')
-            console.log('[Middleware] Secret available:', !!process.env.NEXTAUTH_SECRET)
+            console.log('[Middleware] Secret available:', !!process.env.AUTH_SECRET)
         }
 
         const isAdminRoute = pathname.startsWith('/admin')

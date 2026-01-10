@@ -48,9 +48,8 @@ export default function AdminLoginPage() {
         // Successful login
         setError('')
         // Force hard redirect to ensure middleware re-runs and session is fully committed
-        // This is often more reliable than router.push for auth state changes
-        router.replace('/admin')
-        router.refresh() 
+        // This is much more reliable for auth state changes
+        window.location.href = '/admin'
       } else {
         setError('Login failed. Please try again.')
         setLoading(false)

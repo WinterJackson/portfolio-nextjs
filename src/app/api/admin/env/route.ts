@@ -41,7 +41,7 @@ export async function GET() {
         const targetKeys = [
             'DATABASE_URL',
             'NEXTAUTH_URL',
-            'NEXTAUTH_SECRET',
+            'AUTH_SECRET',
             'GOOGLE_CLIENT_ID',
             'GOOGLE_CLIENT_SECRET',
             'NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME',
@@ -93,7 +93,7 @@ export async function PUT(req: Request) {
         const ALLOWED_KEYS = new Set([
             'DATABASE_URL',
             'NEXTAUTH_URL',
-            'NEXTAUTH_SECRET',
+            'AUTH_SECRET',
             'GOOGLE_CLIENT_ID',
             'GOOGLE_CLIENT_SECRET',
             'NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME',

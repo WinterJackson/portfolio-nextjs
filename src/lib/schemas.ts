@@ -143,7 +143,7 @@ export type ClientFormData = z.infer<typeof ClientSchema>
 export const EnvVariablesSchema = z.object({
     DATABASE_URL: z.string().optional(),
     NEXTAUTH_URL: z.string().url('Invalid URL').optional(),
-    NEXTAUTH_SECRET: z.string().optional(),
+    AUTH_SECRET: z.string().optional(),
     GOOGLE_CLIENT_ID: z.string().optional(),
     GOOGLE_CLIENT_SECRET: z.string().optional(),
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().optional(),

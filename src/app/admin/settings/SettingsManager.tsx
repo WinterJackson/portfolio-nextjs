@@ -21,7 +21,7 @@ export default function AdminSettingsPage() {
 
   // Visibility States
   const [showDatabaseUrl, setShowDatabaseUrl] = useState(false)
-  const [showNextAuthSecret, setShowNextAuthSecret] = useState(false)
+  const [showAuthSecret, setShowAuthSecret] = useState(false)
   const [showGoogleClientSecret, setShowGoogleClientSecret] = useState(false)
   const [showSmtpPassword, setShowSmtpPassword] = useState(false)
 
@@ -95,7 +95,7 @@ export default function AdminSettingsPage() {
       defaultValues: {
           DATABASE_URL: '',
           NEXTAUTH_URL: '',
-          NEXTAUTH_SECRET: '',
+          AUTH_SECRET: '',
           GOOGLE_CLIENT_ID: '',
           GOOGLE_CLIENT_SECRET: '',
           NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: '',
@@ -476,19 +476,19 @@ export default function AdminSettingsPage() {
                 </div>
 
                 <div className={formStyles.group}>
-                    <label>NextAuth Secret</label>
+                    <label>Auth Secret</label>
                      <div className={styles.passwordWrapper}>
                         <input 
-                            type={showNextAuthSecret ? 'text' : 'password'} 
-                            {...registerEnv('NEXTAUTH_SECRET')} 
+                            type={showAuthSecret ? 'text' : 'password'} 
+                            {...registerEnv('AUTH_SECRET')} 
                             className={`${formStyles.input} ${styles.passwordInput}`} 
                         />
                          <button
                             type="button"
-                            onClick={() => setShowNextAuthSecret(!showNextAuthSecret)}
+                            onClick={() => setShowAuthSecret(!showAuthSecret)}
                             className={styles.passwordToggle}
                         >
-                            {showNextAuthSecret ? <EyeOff size={18} /> : <Eye size={18} />}
+                            {showAuthSecret ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>
                     </div>
                 </div>
